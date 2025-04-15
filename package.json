@@ -1,0 +1,38 @@
+{
+    "name": "base-bailey-memory",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "type": "module",
+    "scripts": {
+        "dev": "node ./node_modules/tsx/dist/cli.cjs ./src/index.ts",
+        "build": "node ./node_modules/rollup/dist/bin/rollup -c",
+        "start": "node dist/index.js"
+    },
+    "keywords": [],
+    "dependencies": {
+        "@bot-whatsapp/bot": "0.1.38",
+        "@bot-whatsapp/cli": "latest",
+        "@bot-whatsapp/database": "latest",
+        "@bot-whatsapp/portal": "latest",
+        "@bot-whatsapp/provider": "latest",
+        "@whiskeysockets/baileys": "^6.7.16",
+        "bot-ws-plugin-openai": "^1.0.6",
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0",
+        "openai": "^4.94.0",
+        "paypal-rest-sdk": "^1.8.1",
+        "wa-sticker-formatter": "4.4.4"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@rollup/plugin-node-resolve": "^16.0.1",
+        "@rollup/plugin-terser": "^0.4.4",
+        "@types/express": "^5.0.1",
+        "@types/node": "^22.14.1",
+        "rollup": "^4.40.0",
+        "rollup-plugin-typescript2": "^0.36.0",
+        "tsx": "^4.19.3"
+    }
+}
