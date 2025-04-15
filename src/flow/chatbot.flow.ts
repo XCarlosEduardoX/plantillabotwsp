@@ -1,5 +1,5 @@
 import BotWhatsapp from '@bot-whatsapp/bot';
-import { generatePaymentLink } from 'src/services/paypal';
+// import { generatePaymentLink } from 'src/services/paypal';
 
 /**
  * Un flujo conversacion que responder a las palabras claves "hola", "buenas", ...
@@ -16,7 +16,8 @@ export default BotWhatsapp.addKeyword(BotWhatsapp.EVENTS.ACTION)
     .addAnswer('...generando link de pago de curso de chatbot')
     .addAction(async (ctx, {flowDynamic, state}) => {
         const email = state.get('email')
-        const paypalLink = await generatePaymentLink('30.00', email)
+        // const paypalLink = await generatePaymentLink('30.00', email)
+        let paypalLink = '';
         await flowDynamic(paypalLink)
     })
 

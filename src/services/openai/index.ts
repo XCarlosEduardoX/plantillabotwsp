@@ -1,58 +1,46 @@
-import OpenAI from "openai";
-import { ChatCompletionMessageParam } from "openai/resources";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import { generatePrompt, generatePromptDetermine } from "./prompt";
 
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY,
-});
+const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+
+// Modelo Gemini
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 /**
  * 
  * @param name 
  * @param history 
  */
-const run = async (name: string, history: ChatCompletionMessageParam[]): Promise<string> => {
+const run = async (name: string, history: { role: string, content: string }[]): Promise<string> => {
+    const prompt = generatePrompt(name);
 
-    const promtp = generatePrompt(name)
-    const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-            {
-                "role": "system",
-                "content": promtp
-            },
-            ...history
-        ],
-        temperature: 1,
-        max_tokens: 800,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-    });
-    return response.choices[0].message.content
-}
+    // Combinar el prompt del sistema con el historial
+    const messages = [
+        { role: "system", content: prompt },
+        ...history
+    ];
 
-const runDetermine = async (history: ChatCompletionMessageParam[]): Promise<string> => {
+    // Convertir a formato compatible con Gemini (solo texto)
+    const fullPrompt = messages.map(m => `${m.role}: ${m.content}`).join("\n");
 
-    const promtp = generatePromptDetermine()
-    const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-            {
-                "role": "system",
-                "content": promtp
-            },
-            ...history
-        ],
-        temperature: 1,
-        max_tokens: 800,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-    });
-    return response.choices.length > 0 && response.choices[0].message.role === 'user' ? response.choices[0].message.content : 'unknown'
-}
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
+};
 
-export { run, runDetermine }
+const runDetermine = async (history: { role: string, content: string }[]): Promise<string> => {
+    const prompt = generatePromptDetermine();
 
+    const messages = [
+        { role: "system", content: prompt },
+        ...history
+    ];
 
+    const fullPrompt = messages.map(m => `${m.role}: ${m.content}`).join("\n");
+
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text() || "unknown";
+};
+
+export { run, runDetermine };

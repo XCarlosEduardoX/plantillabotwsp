@@ -16,6 +16,7 @@
         "@bot-whatsapp/database": "latest",
         "@bot-whatsapp/portal": "latest",
         "@bot-whatsapp/provider": "latest",
+        "@google/generative-ai": "^0.24.0",
         "@whiskeysockets/baileys": "^6.7.16",
         "bot-ws-plugin-openai": "^1.0.6",
         "dotenv": "^16.5.0",
