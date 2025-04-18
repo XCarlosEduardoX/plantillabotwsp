@@ -4,6 +4,7 @@ import welcomeFlow from './welcome.flow';
 import paypalFlow from './paypal.flow';
 import chatbotFlow from './chatbot.flow';
 import nodeFlow from './node.flow';
+import productsFlow from './products.flow';
 
 /**
  * Debes de implementasr todos los flujos
@@ -14,6 +15,7 @@ export default BotWhatsapp.createFlow(
         welcomeFlow,
         paypalFlow,
         chatbotFlow,
-        nodeFlow
+        nodeFlow,
+        productsFlow  
     ]
 )

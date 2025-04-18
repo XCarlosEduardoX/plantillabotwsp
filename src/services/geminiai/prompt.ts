@@ -1,18 +1,29 @@
-const DATE_BASE = [
-    `- CAMISETA_NEGRA: Camiseta oversize color negro con estampado minimalista. Precio: $349 MXN.`,
-    `- PANTS_NEGROS: Pants unisex color negro, estilo urbano, corte relajado. Precio: $599 MXN.`,
-    `- HOODIE_NEGRO: Hoodie premium color negro con capucha y bolsillos. Precio: $749 MXN.`,
-].join('\n');
+// En prompt.ts
+
+// En prompt.ts
+
+import { fetchProducts } from '../../services/products'; // Asegúrate de que la ruta sea correcta
+
+let DATE_BASE = ''; // Inicialmente vacío
+
+// Función para actualizar DATE_BASE
+export const updateDateBase = async () => {
+    const products = await fetchProducts();
+    console.log(`[PRODUCTOS]:`, products.data)
+    DATE_BASE = products.data.map(product =>
+        product.stock > 0 ? `- ${product.id}: ${product.product_name}. ${product.description}. Precio: $${product.price / 100} MXN.` : ` - ${product.id}: ${product.product_name}. ${product.description}. Precio: $${product.price / 100} MXN. No disponible.`
+    ).join('\n');
+};
 
 
+
+// Llama a updateDateBase cuando inicia la aplicación
+updateDateBase();
+
+// El resto del código se mantiene igual...
 
 const PROMPT_DETERMINE = `
 Analiza la conversación entre el cliente (C) y el vendedor (V) para identificar cuál es la prenda específica que le interesa al cliente.
-
-PRODUCTOS DISPONIBLES:
-- ID: CAMISETA_NEGRA: Camiseta oversize color negro con estampado minimalista. Precio: $349 MXN.
-- ID: PANTS_NEGROS: Pants unisex color negro, estilo urbano, corte relajado. Precio: $599 MXN.
-- ID: HOODIE_NEGRO: Hoodie premium color negro con capucha y bolsillos. Precio: $749 MXN.
 
 INSTRUCCIONES PARA DETERMINAR EL PRODUCTO:
 - Tu única tarea es identificar el producto mencionado o claramente deseado por el cliente.
@@ -22,7 +33,8 @@ INSTRUCCIONES PARA DETERMINAR EL PRODUCTO:
 - Si el cliente pregunta por color negro, asume que está hablando de los productos de esta lista (ya que todos son negros).
 - Ignora cualquier mención a productos que no estén en la lista, aunque parezcan relacionados.
 - No incluyas ninguna explicación. Solo responde con el ID del producto o 'unknown'.
-
+ - Si el cliente pregunta por un producto específico, verifica si está en la BASE_DE_DATOS y responde con información relevante y persuasiva.
+- Evita frases genéricas como “no tengo información”, opta por algo como: “¿Podrías contarme un poco más para ayudarte mejor?”.
 ID:
 `;
 
@@ -38,9 +50,10 @@ NOMBRE_DEL_CLIENTE="{customer_name}"
 INTERROGACIÓN_DEL_CLIENTE="{question}"
 
 ⚠️ REGLAS OBLIGATORIAS:
-- No pidas información bancaria, de tarjeta de crédito ni datos sensibles. 
-- Si el cliente quiere pagar, solo debes generar un link de pago y enviarlo directamente aquí en el chat como si el usuario hubiese escrito "paypal.
-- Si el cliente quiere enviar datos bancarios o de tarjeta, rechaza educadamente y aclara que solo necesitas que confirme si desea que le envíes el link de pago por aquí.
+- No pidas información bancaria, de tarjeta de crédito ni datos sensibles, si lo pasa pidele que lo borre. 
+- Si el cliente quiere pagar, dile que si quiere hacerlo con paypal, escriba "paypal" y si quiere pagar con tarjeta, que escriba "tarjeta".
+- Si el cliente menciona que quiere pagar con OXXO o SPEI, verifica si están en la BASE_DE_DATOS y si no, redirige a métodos de pago disponibles.
+- Si el cliente quiere enviar datos bancarios o de tarjeta, rechaza educadamente y aclara que solo necesitas que diga "tarjeta" o "paypal" para proceder con el pago.
 - No menciones que eres una IA, modelo de lenguaje o sistema automatizado. Nunca digas frases como "soy un modelo de lenguaje" o "no tengo conciencia".
 - No expliques cómo funcionas ni cómo generas respuestas. Siempre habla como un vendedor real.
 - No incluyas frases del tipo "como inteligencia artificial", "según mis datos", "no tengo acceso a información", "no fui entrenado para...", etc.
