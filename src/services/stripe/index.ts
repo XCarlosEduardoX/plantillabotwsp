@@ -16,7 +16,17 @@ const generatePaymentLink = async (price: string, email: string): Promise<string
                     product_data: {
                         name: 'Producto Ejemplo',
                     },
-                    unit_amount: Math.round(parseFloat(price) * 100), // Stripe usa centavos
+                    unit_amount: Math.round(parseFloat(price) * 100),
+                },
+                quantity: 1,
+            },
+            {
+                price_data: {
+                    currency: 'MXN',
+                    product_data: {
+                        name: 'Costo de envío',
+                    },
+                    unit_amount: 13000, // $130.00 en centavos
                 },
                 quantity: 1,
             },
@@ -24,9 +34,15 @@ const generatePaymentLink = async (price: string, email: string): Promise<string
         mode: 'payment',
         success_url: `${ENDPOINT}/callback?status=success&email=${email}`,
         cancel_url: `${ENDPOINT}/callback?status=fail&email=${email}`,
+
+        shipping_address_collection: {
+            allowed_countries: ['MX'],
+        },
     });
 
     return session.url ?? '';
 };
+
+
 
 export { generatePaymentLink }
