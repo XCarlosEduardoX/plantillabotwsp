@@ -1,6 +1,6 @@
 import BotWhatsapp from '@bot-whatsapp/bot';
 import { ChatCompletionMessageParam } from 'openai/resources';
-import { run, runDetermine } from 'src/services/openai';
+import { run, runDetermine } from 'src/services/geminiai';
 import chatbotFlow from './chatbot.flow';
 
 /**

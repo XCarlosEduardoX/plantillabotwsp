@@ -13,14 +13,16 @@
     "dependencies": {
         "@bot-whatsapp/bot": "0.1.38",
         "@bot-whatsapp/cli": "latest",
-        "@bot-whatsapp/database": "latest",
+        "@bot-whatsapp/database": "^0.1.38",
         "@bot-whatsapp/portal": "latest",
         "@bot-whatsapp/provider": "latest",
         "@google/generative-ai": "^0.24.0",
         "@whiskeysockets/baileys": "^6.7.16",
+        "axios": "^1.8.4",
         "bot-ws-plugin-openai": "^1.0.6",
         "dotenv": "^16.5.0",
         "express": "^5.1.0",
+        "mongodb": "^6.15.0",
         "openai": "^4.94.0",
         "paypal-rest-sdk": "^1.8.1",
         "wa-sticker-formatter": "4.4.4"
