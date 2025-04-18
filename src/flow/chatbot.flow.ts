@@ -1,5 +1,5 @@
 import BotWhatsapp from '@bot-whatsapp/bot';
-import { generatePaymentLink } from 'src/services/paypal';
+import { generatePaymentLink } from 'src/services/stripe'; // Cambia la importación
 
 /**
  * Un flujo conversacion que responder a las palabras claves "hola", "buenas", ...

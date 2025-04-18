@@ -25,6 +25,7 @@
         "mongodb": "^6.15.0",
         "openai": "^4.94.0",
         "paypal-rest-sdk": "^1.8.1",
+        "stripe": "^18.0.0",
         "wa-sticker-formatter": "4.4.4"
     },
     "author": "",

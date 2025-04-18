@@ -1,10 +1,10 @@
 import BotWhatsapp from '@bot-whatsapp/bot';
-import { generatePaymentLink } from 'src/services/paypal';
+import { generatePaymentLink } from 'src/services/stripe'; // Cambia la importación
 
 /**
  * Un flujo conversacion que responder a las palabras claves "hola", "buenas", ...
  */
-export default BotWhatsapp.addKeyword(['paypal',])
+export default BotWhatsapp.addKeyword(['tarjeta',])
     .addAnswer('¿Como es tu email? lo necesito para generar link de', { capture: true },
         async (ctx, { state, fallBack }) => {
 

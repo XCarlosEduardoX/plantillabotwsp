@@ -13,15 +13,15 @@ const initServer = (botInstance: any) => {
     app.get('/callback', (req, res) => {
         const query = req.query
         console.log(`[QUERY]:`, query)
-
+    
         if (query && query?.status === 'fail') {
             res.send(`Error en el pago`)
             return
         }
-
-        res.send(`Todo Ok`)
+    
+        // Puedes agregar lógica adicional específica de Stripe aquí
+        res.send(`Pago exitoso`)
     })
-
     app.get("/qr", async (_, res) => {
         const PATH_QR = join(process.cwd(), `bot.qr.png`);
         const fileStream = createReadStream(PATH_QR);
